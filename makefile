@@ -39,4 +39,5 @@ clean:
 	rm -rf ${ZLIB_DIR}
 	rm -rf ${ZLIB_SYMDIR}
 	rm -rf ${BUILD}
-	rm -rf *.gz
+	rm -rf *.zlib-test
+	rm -rf *.zlib-test.out
