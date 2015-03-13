@@ -15,6 +15,7 @@
 #define ZLIB_TEST_EXTRACT_EXT ".out"
 
 #include <exception>
+#include <stdexcept>
 #include <string>
 #include <cstdlib>
 #include <cstdio>
