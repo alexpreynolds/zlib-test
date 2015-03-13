@@ -17,6 +17,7 @@
 #include <exception>
 #include <string>
 #include <cstdlib>
+#include <cstdio>
 #include "sys/stat.h"
 #include "zlib/zlib.h"
 
