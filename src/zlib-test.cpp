@@ -36,9 +36,12 @@ zlibTest::ZlibTest::read_z_chunk(void)
     this->z_stream_ptr->avail_in = static_cast<unsigned int>( std::fread(this->in_buf, 1, ZLIB_TEST_CHUNK/2, this->in_fp) );
     this->z_stream_ptr->next_in = this->in_buf;
     try {
-        this->z_stream_ptr->avail_out = ZLIB_TEST_CHUNK;
-        this->z_stream_ptr->next_out = this->out_buf;
-        int ret = inflate(this->z_stream_ptr, Z_NO_FLUSH);
+        int ret = -1;
+        do {
+            this->z_stream_ptr->avail_out = ZLIB_TEST_CHUNK;
+            this->z_stream_ptr->next_out = this->out_buf;
+            ret = inflate(this->z_stream_ptr, Z_NO_FLUSH);
+        } while (this->z_stream_ptr->avail_out == 0);
         switch (ret) {
         case Z_NEED_DICT:
             ret = Z_DATA_ERROR;
@@ -112,8 +115,8 @@ zlibTest::ZlibTest::extract_in_fn(void)
 
     // initialize extraction machinery
     try {
-        //int ret = inflateInit2(this->z_stream_ptr, ZLIB_TEST_COMPRESSION_WINDOW_BITS + 16);
-        int ret = inflateInit(this->z_stream_ptr);
+        int ret = inflateInit2(this->z_stream_ptr, ZLIB_TEST_COMPRESSION_WINDOW_BITS + 16);
+        //int ret = inflateInit(this->z_stream_ptr);
         if (ret != Z_OK)
             throw std::runtime_error("could not initialize initialization machinery");
         this->rem_len = 0;
@@ -254,7 +257,7 @@ zlibTest::ZlibTest::init_z_stream_ptr(void)
 {
     try {
         this->z_stream_ptr = new z_stream;
-        }
+    }
     catch (std::bad_alloc& ba) {
         std::fprintf(stderr, "Error: Bad alloc caught: %s\n", ba.what());
     }
