@@ -48,7 +48,7 @@ zlibTest::ZlibTest::read_z_chunk(void)
         case Z_DATA_ERROR:
         case Z_MEM_ERROR:
             inflateEnd(this->z_stream_ptr);
-            throw std::runtime_error("inflate to stream failed [" + std::to_string(ret) + "]");
+            throw std::runtime_error("inflate to stream failed [" + zlibTest::ZlibTest::to_string(ret) + "]");
         }
         this->out_have = ZLIB_TEST_CHUNK - this->z_stream_ptr->avail_out;
         fprintf(stderr, "Debug: Able to write %d bytes to output stream\n", static_cast<int>( this->out_have ));
@@ -235,7 +235,7 @@ zlibTest::ZlibTest::compress_in_fn(void)
                 this->out_have = ZLIB_TEST_CHUNK - this->z_stream_ptr->avail_out;
                 // write "this->have" bytes from out_buf to out_fp
                 if (std::fwrite(this->out_buf, 1, this->out_have, this->out_fp) != this->out_have || std::ferror(this->out_fp)) {
-                    throw std::runtime_error("Compression error Z_ERRNO [" + std::to_string(Z_ERRNO) + "]");
+                    throw std::runtime_error("Compression error Z_ERRNO [" + zlibTest::ZlibTest::to_string(Z_ERRNO) + "]");
                 }
             } while (this->z_stream_ptr->avail_out == 0);
         }

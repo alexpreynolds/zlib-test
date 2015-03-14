@@ -17,8 +17,10 @@
 #include <exception>
 #include <stdexcept>
 #include <string>
+#include <sstream>
 #include <cstdlib>
 #include <cstdio>
+#include <cstring>
 #include "sys/stat.h"
 #include "zlib/zlib.h"
 
@@ -55,6 +57,12 @@ namespace zlibTest
         void init_z_stream_ptr(void);
         void delete_z_stream_ptr(void);
 
+        template <typename T> static std::string to_string(T value) {
+            std::ostringstream os;
+            os << value;
+            return os.str();
+        }
+        
         static void print_usage(void) { 
             std::fprintf(stderr, "Usage: %s some_file\n", ZLIB_TEST_NAME); 
         }
